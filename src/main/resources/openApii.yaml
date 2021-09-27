@@ -1,0 +1,219 @@
+openapi: 3.0.3
+info:
+  title: First API Specification
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+  
+paths:
+  
+  /students:
+    post:
+      tags:
+        - Student API
+      summary: End point to create a student
+      description: End point url to create a student in a system
+      requestBody:
+        content:
+         application/json:
+           schema:
+             $ref: "#/components/schemas/Student"
+      responses:
+        '201':    # status code
+          description: Student details
+          content:
+           application/json:
+              schema: 
+                $ref: "#/components/schemas/Student"
+    get:
+      tags:
+        - Student API
+      parameters: 
+      - in: query
+        name: p
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: ps
+        in: query
+        description: Number of records to return
+        schema:
+          type: integer
+          default: 25
+          maximum: 500
+          minimum: 1
+      - name: s
+        in: query
+        description: sorting parameter
+        schema:
+          type: string
+          default: sId:asc
+      summary: Get All Student Details
+      responses:
+        '200':    # status code
+          description: student details
+          content:
+           application/json:
+              schema: 
+                  $ref: "#/components/schemas/PageResult"
+  
+  /students/{id}:
+    get:
+      tags:
+        - Students API
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':    # status code
+          description: A JSON object of student
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Student"
+    
+    put:
+      tags: 
+        - Update Student API
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Student"
+      responses:
+        '200':  #status code
+          description: A JSON object of student
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Student" 
+  
+  /lecturers:
+    post:
+      tags:
+        - Lecturer API
+      summary: End point to create a Lecturer
+      description: End point url to create a lecturer in a system
+      requestBody:
+        content:
+         application/json:
+           schema:
+             $ref: "#/components/schemas/Lecturer"
+      responses:
+        '201':    # status code
+          description: Lecturer details
+          content:
+           application/json:
+              schema: 
+                $ref: "#/components/schemas/Lecturer"
+    
+    get:
+      tags:
+        - Lecturer API
+      parameters: 
+      - in: query
+        name: p
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: ps
+        in: query
+        description: Number of records to return
+        schema:
+          type: integer
+          default: 25
+          maximum: 500
+          minimum: 1
+      - name: s
+        in: query
+        description: sorting parameter
+        schema:
+          type: string
+          default: lectId:asc
+      summary: Get All Lecturer Details
+      responses:
+        '200':    # status code
+          description: lecturer details
+          content:
+           application/json:
+              schema: 
+                  $ref: "#/components/schemas/PageResult"
+  
+  /subjects/{id}/lecturers:
+    get:
+      tags:
+        - Subjects API
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+          
+      responses:
+        '200':    # status code
+          description: A JSON object of lecture
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Lecturer"
+    
+                
+components:
+  schemas:
+    PageResult:
+      properties:
+        pageNumber:
+          type: integer
+    
+    Student:
+      properties:
+        sId:
+          type: string
+        sName:
+          type: string
+        sAddress:
+          type: string
+        sBdate:
+          type: string
+          
+        enrollment:
+          $ref: "#/components/schemas/Enrollment"
+    Enrollment:
+      properties:
+        courseName:
+          type: string
+          
+    Lecturer:
+      properties:
+        lId:
+          type: string
+        lName:
+          type: string
+        lEmail:
+          type: string
+        lAddress:
+          type: string
+          
+        subject:
+          $ref: "#/components/schemas/Subject"
+    
+    Subject:
+      properties:
+        subName:
+          type: string
+          
+   

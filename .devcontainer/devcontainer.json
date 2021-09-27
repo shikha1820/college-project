@@ -1,0 +1,46 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+  "name": "AS Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "java -version",
+  "extensions": [
+    "gabrielbb.vscode-lombok",
+    "pivotal.vscode-spring-boot",
+    "redhat.vscode-xml",
+    "vscjava.vscode-java-pack",
+    "eamodio.gitlens",
+    "ms-azuretools.vscode-docker"
+  ],
+  "forwardPorts": [
+    8080
+  ],
+  "settings": {
+    "git.ignoreLegacyWarning": true,
+    "java.dependency.syncWithFolderExplorer": true,
+    "java.home": "/docker-java-home",
+    "maven.view": "hierarchical",
+    "terminal.integrated.shell.linux": "/bin/bash",
+    // TODO confirm this setting w/ Chris "terminal.integrated.shell.windows": "wsl.exe",
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.implementationsCodeLens.enabled": true,
+    "java.maven.downloadSources": true,
+    "javascript.validate.enable": false,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false
+  },
+  "runArgs": [
+    "--mount",
+    "type=bind,source=${env:HOME}${env:USERPROFILE}/.ssh,destination=/root/.ssh,readonly",
+    "--mount",
+    "type=bind,source=${env:HOME}${env:USERPROFILE}/.m2/repository,destination=/root/.m2/repository",
+    "-v",
+    "/var/run/docker.sock:/var/run/docker.sock"
+  ]
+}

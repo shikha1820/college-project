@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE changelog-common SYSTEM "../changelog-common.dtd">
+<databaseChangeLog logicalFilePath="db.changelog-master.xml"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="
+                      http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd
+                      http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+<changeSet id="20210911_ENROLLMENT_TABLE" author="samanta6">
+  <createTable tableName="ENROLLMENTS">
+    <column name="COURSE_ID" type="BIGINT" autoIncrement="true">
+       <constraints primaryKey="true" />
+      </column>
+      <column name="ENROLL_DATE" type="VARCHAR"/>
+      <column name="COURSE_NAME" type="VARCHAR(255)"/>
+      &entityColumns;
+      &auditColumns;
+  </createTable>
+</changeSet>
+
+<changeSet id="20210911_STUDENT_TABLE" author="samanta6">
+  <createTable tableName="STUDENTS">
+      <column name="ID" type="BIGINT" autoIncrement="true">
+       <constraints primaryKey="true" />
+      </column>
+      <column name="S_ID" type="VARCHAR(255)"/>
+      <column name="S_NAME" type="VARCHAR(255)"/>
+      <column name="S_ADDRESS" type="VARCHAR(255)"/>
+      <column name="S_BDATE" type="VARCHAR(255)"/>
+      <column name = "C_ID" type= "BIGINT"/>
+      &entityColumns;
+      &auditColumns;
+  </createTable>
+</changeSet>
+
+<changeSet id="202110911_STUDENT_ENROLLMENT_TABLE_FK_CONSTRATINT" author="samanta6">
+  <addForeignKeyConstraint baseColumnNames="C_ID"  baseTableName="STUDENTS"  constraintName="FK_STUDENT_ENROLLMENT"
+      referencedColumnNames="COURSE_ID"
+      referencedTableName="ENROLLMENTS" />
+</changeSet>
+
+<changeSet id="20210919_SUBJECT_TABLE" author="samanta6">
+  <createTable tableName="SUBJECTS">
+    <column name="S_ID" type="BIGINT" autoIncrement="true">
+       <constraints primaryKey="true" />
+      </column>
+      <column name="SUB_ID" type="VARCHAR"/>
+      <column name="SUB_NAME" type="VARCHAR(255)"/>
+      &entityColumns;
+      &auditColumns;
+  </createTable>
+</changeSet>
+
+<changeSet id="20210919_LECTURER_TABLE" author="samanta6">
+  <createTable tableName="LECTURERS">
+      <column name="L_ID" type="BIGINT" autoIncrement="true">
+       <constraints primaryKey="true" />
+      </column>
+      <column name="LECT_ID" type="VARCHAR(255)"/>
+      <column name="LECT_NAME" type="VARCHAR(255)"/>
+      <column name="LECT_EMAIL" type="VARCHAR(255)"/>
+      <column name="LECT_ADDRESS" type="VARCHAR(255)"/>
+      <column name ="SUBJECT_ID" type= "BIGINT"/>
+
+      &entityColumns;
+      &auditColumns;
+  </createTable>
+</changeSet>  
+
+<changeSet id="202110919_LECTURER_SUBJECT_TABLE_FK_CONSTRATINT" author="samanta6">
+  <addForeignKeyConstraint baseColumnNames="SUBJECT_ID"  baseTableName="LECTURERS"  constraintName="FK_LECTURER_SUBJECT"
+      referencedColumnNames="S_ID"
+      referencedTableName="SUBJECTS" />
+</changeSet>
+
+</databaseChangeLog>

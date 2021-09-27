@@ -1,0 +1,28 @@
+# Read more about the pipeline at https://gitlab.med.stanford.edu/tds-devops/gitlab-pipeline/blob/master/README.md
+
+include:
+  - project: "tds-devops/gitlab-pipeline"
+    file: "base.yml"
+
+variables:
+  BUILD_TARGET_SET: maven, docker, gcr
+
+.setup_kaniko:
+  tags:
+    - tds-as
+
+.setup_crane:
+  tags:
+    - tds-as
+
+.trigger-release:
+  tags:
+    - tds-as 
+
+cache:
+  paths:
+    - maven.repository/
+
+build_maven:
+  script: mvn $MAVEN_CLI_OPTS package spring-boot:repackage
+
